@@ -50,3 +50,14 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+a.out
+lex.yy.c
+parser.output
+parser.tab.c
+parser.tab.h
+lex.yy.o
+parser.tab.o
+y.output
+y.tab.c
+y.tab.h
