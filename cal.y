@@ -1,8 +1,3 @@
-%{
-#include <stdio.h>
-#include <stdlib.h>
-#define YYDEBUG 1
-%}
 %union {
   int    int_value;
   double double_value;
@@ -10,6 +5,16 @@
 %token <double_value> DOUBLE_LITERAL
 %token ADD SUB MUL DIV NL
 %type <double_value> expression term primary_expression
+
+%{
+#include <stdio.h>
+#include <stdlib.h>
+#define YYDEBUG 1
+
+void yyerror(char*);
+int yylex(void);
+%}
+
 %%
 line_list : line
           | line_list line
@@ -42,21 +47,12 @@ term : primary_expression
 primary_expression : DOUBLE_LITERAL
                    ;
 %%
-int yyerror(char const* str) {
-  extern char* yytext;
-  fprintf(stderr, "parser error near %s\n", yytext);
+void yyerror(char *s) {
+  printf("%s\n", s);
   return 0;
 }
 
-int main() {
-  extern int yyparse();
-  extern FILE* yyin;
-
-  yyin = stdin;
-  if (yyparse()) {
-    frpintf(stderr, "critical error !!!");
-    exit(1);
-  }
-
+int main(void) {
+  yyparse();
   return 0;
 }
